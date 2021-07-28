@@ -1,3 +1,5 @@
+package com.pinkelephant.petinsurance.domain;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +16,7 @@ public class Owner {
     private String address;
     private String email;
     private String phone;
+    private Long policyNumber;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Pet> pets;
@@ -86,17 +89,12 @@ public class Owner {
         this.pets = pets;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Owner owner = (Owner) o;
-        return Objects.equals(id, owner.id) && Objects.equals(name, owner.name) && Objects.equals(age, owner.age) && Objects.equals(address, owner.address) && Objects.equals(email, owner.email) && Objects.equals(phone, owner.phone) && Objects.equals(pets, owner.pets);
+    public Long getPolicyNumber() {
+        return policyNumber;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, age, address, email, phone, pets);
+    public void setPolicyNumber(Long policyNumber) {
+        this.policyNumber = policyNumber;
     }
 
     @Override
@@ -108,8 +106,22 @@ public class Owner {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", policyNumber=" + policyNumber +
                 ", pets=" + pets +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Owner owner = (Owner) o;
+        return Objects.equals(id, owner.id) && Objects.equals(name, owner.name) && Objects.equals(age, owner.age) && Objects.equals(address, owner.address) && Objects.equals(email, owner.email) && Objects.equals(phone, owner.phone) && Objects.equals(policyNumber, owner.policyNumber) && Objects.equals(pets, owner.pets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, address, email, phone, policyNumber, pets);
     }
 }
 

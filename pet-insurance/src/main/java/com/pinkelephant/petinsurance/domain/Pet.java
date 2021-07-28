@@ -1,3 +1,5 @@
+package com.pinkelephant.petinsurance.domain;
+
 import javax.persistence.*;
 import java.util.Objects;
 
