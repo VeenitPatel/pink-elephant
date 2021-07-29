@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PetManagerUtilsImpl implements PetManagerUtils{
+public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepository;
@@ -22,6 +22,13 @@ public class PetManagerUtilsImpl implements PetManagerUtils{
 
     @Override
     public Owner getOwnerById(Long id) {
-        return ownerRepository.getById(id);
+        return ownerRepository.findById(id).get();
     }
+
+    @Override
+    public Owner createOwner(Owner owner) {
+        return ownerRepository.save(owner);
+    }
+
+
 }

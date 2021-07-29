@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "pet")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String species;
     private Integer age;
     private String name;
@@ -17,7 +18,7 @@ public class Pet {
     @ManyToOne
     private Owner owner;
 
-    public Pet(Integer id, String species, Integer age, String name, String gender, Owner owner) {
+    public Pet(Long id, String species, Integer age, String name, String gender, Owner owner) {
         this.id = id;
         this.species = species;
         this.age = age;
@@ -28,11 +29,11 @@ public class Pet {
 
     public Pet() {}
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

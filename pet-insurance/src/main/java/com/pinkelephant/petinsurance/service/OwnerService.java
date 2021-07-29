@@ -4,8 +4,10 @@ import com.pinkelephant.petinsurance.domain.Owner;
 
 import java.util.List;
 
-public interface PetManagerUtils {
+public interface OwnerService {
     List<Owner> getAllOwner();
 
     Owner getOwnerById(Long id);
+
+    Owner createOwner(Owner owner);
 }
