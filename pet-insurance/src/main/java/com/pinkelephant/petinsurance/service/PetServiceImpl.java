@@ -28,4 +28,32 @@ public class PetServiceImpl implements PetService {
     public Pet createPet(Pet pet) {
         return petRepository.save(pet);
     }
+
+    @Override
+    public Pet updatePet(Long id, Pet pet) {
+        Pet oldPet = getPetById(id);
+        oldPet.setAge(pet.getAge());
+        oldPet.setGender(pet.getGender());
+        oldPet.setSpecies(pet.getSpecies());
+        oldPet.setName(pet.getName());
+        oldPet.setOwner(pet.getOwner());
+        return petRepository.save(oldPet);
+    }
+
+    @Override
+    public void deletePet(Long id) {
+        petRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Pet> getAllBySpecies(String species) {
+        return petRepository.findAllBySpecies(species);
+    }
+
+    @Override
+    public List<Pet> getAllByGender(String gender) {
+        return petRepository.findAllByGender(gender);
+    }
+
+
 }

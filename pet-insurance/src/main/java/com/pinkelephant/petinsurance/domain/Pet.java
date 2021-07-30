@@ -1,5 +1,8 @@
 package com.pinkelephant.petinsurance.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -16,6 +19,8 @@ public class Pet {
     private String gender;
 
     @ManyToOne
+    @JoinColumn(name="owner_id", nullable=false)
+    @JsonBackReference
     private Owner owner;
 
     public Pet(Long id, String species, Integer age, String name, String gender, Owner owner) {

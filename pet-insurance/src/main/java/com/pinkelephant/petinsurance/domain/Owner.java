@@ -1,5 +1,7 @@
 package com.pinkelephant.petinsurance.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +12,7 @@ public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "owner_id")
     private Long id;
     private String name;
     private Integer age;
@@ -18,20 +21,23 @@ public class Owner {
     private String phone;
     private Long policyNumber;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @JsonManagedReference
     private List<Pet> pets;
 
-    public Owner(Long id, String name, Integer age, String address, String email, String phone, List<Pet> pets) {
+
+    public Owner() {}
+
+    public Owner(Long id, String name, Integer age, String address, String email, String phone, Long policyNumber, List<Pet> pets) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
         this.email = email;
         this.phone = phone;
+        this.policyNumber = policyNumber;
         this.pets = pets;
     }
-
-    public Owner() {}
 
     public Long getId() {
         return id;

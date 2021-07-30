@@ -10,4 +10,12 @@ public interface PetService {
     Pet getPetById(Long id);
 
     Pet createPet(Pet pet);
+
+    Pet updatePet(Long id, Pet pet);
+
+    void deletePet(Long id);
+
+    List<Pet> getAllBySpecies(String species);
+
+    List<Pet> getAllByGender(String gender);
 }
