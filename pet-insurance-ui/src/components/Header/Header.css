@@ -1,0 +1,15 @@
+.header {
+    background-color: bisque;
+    padding-bottom: 20px;
+    padding-top: 15px;
+}
+
+.header h2, .header h1 {
+    display: inline;
+    padding: 30px;
+}
+
+a, a:visited{
+    text-decoration: none;
+    color: #0077CC;
+}

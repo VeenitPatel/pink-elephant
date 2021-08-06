@@ -12,7 +12,6 @@ public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "owner_id")
     private Long id;
     private String name;
     private Integer age;

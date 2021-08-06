@@ -1,0 +1,16 @@
+table {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border: 1px solid #999;
+}
+td, th {
+    padding: 3px;
+    border: 1px solid #999;
+}
+
+.petTable {
+    padding: 20px;
+}
+

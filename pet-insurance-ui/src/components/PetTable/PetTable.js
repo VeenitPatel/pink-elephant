@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getOwners, getPetsForOwner } from "../../data/rest";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import { useLocation, useHistory } from 'react-router-dom';
+import "./PetTable.css"
 
 const PetTable = () => {
     const [pets, setPets] = useState([]);
@@ -15,6 +17,10 @@ const PetTable = () => {
 
     const reduxDispatch = useDispatch();
 
+    const history = useHistory();
+    const location = useLocation();
+    const ownerIdFromStore = useSelector(state => state.ownerId);
+
     const loadPetsForOwner = (ownerId) => {
         getPetsForOwner(ownerId)
         .then((response) => {
@@ -25,8 +31,26 @@ const PetTable = () => {
     useEffect(() => {
         getOwners()
         .then((response) => {
-            setOwners(response.data);
-            loadPetsForOwner(response.data[0].id);
+            const ownerIdFromURL = new URLSearchParams(location.search).get("ownerId");
+            if (ownerIdFromURL != null){
+                setCurrentOwner(ownerIdFromURL);
+                setOwners(response.data);
+                loadPetsForOwner(ownerIdFromURL);
+                reduxDispatch({type: "add-pet", value: ownerIdFromURL})
+                console.log(ownerIdFromURL);
+            } else if (ownerIdFromStore !== 0){
+                setCurrentOwner(ownerIdFromStore);
+                setOwners(response.data);
+                loadPetsForOwner(ownerIdFromStore);
+                reduxDispatch({type: "add-pet", value: ownerIdFromStore})
+                console.log(ownerIdFromStore);
+            } else {
+                setCurrentOwner(response.data[0].id);
+                setOwners(response.data);
+                loadPetsForOwner(response.data[0].id);
+                reduxDispatch({type: "add-pet", value: response.data[0].id })
+            }
+
         })
     }, [])
     
@@ -34,6 +58,8 @@ const PetTable = () => {
         loadPetsForOwner(e.target.value);
         setCurrentOwner(e.target.value);
         setCurrentSpecies("NONE");
+        reduxDispatch({type: "add-pet", value: e.target.value});
+        history.push(`/pet?ownerId=${e.target.value}`);
     }
 
     const changeSpecies = (e) => {
@@ -45,24 +71,24 @@ const PetTable = () => {
     }
 
     return (
-        <>
+        <div className="petTable">
             <label htmlFor="ownerSelect" > Select Owner: </label>
-            <select id="ownerSelect" onChange={changeOwner}>
+            <select value={currentOwner} id="ownerSelect" onChange={changeOwner}>
                 {owners.map((owner) => {
                     return (<option key={owner.id}  value={owner.id}> {owner.id} </option>)
                 })}
             </select>
             <label htmlFor="speciesSelect"> Select species: </label>
-            <select id="speciesSelect" onChange={changeSpecies}>
+            <select value={currentSpecies} id="speciesSelect" onChange={changeSpecies}>
                 {/* <option disabled >SELECT</option> */}
                 {uniqueSpecies.map((species, index) => {
                     return (<option key={index}  value={species}> {species} </option>)
                 })}
             </select>
-            <Link to="/addPet"><button onClick={addPet}>Add Pet</button></Link>
-            { (pets.length === 0) ? <p>No pets for this owner! :(</p> : 
+
+            { (pets.length === 0) ? <p>No pets for this owner! :(</p> :
             <div>
-                <p>Pets</p>
+                <h3 className="tableTitle">Pets Table</h3>
                 <table>
                     <thead>
                         <tr>
@@ -91,7 +117,7 @@ const PetTable = () => {
                 </table>
             </div>
             }
-        </>
+        </div>
     );
 }
 

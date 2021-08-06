@@ -1,0 +1,10 @@
+.form label, .form input {
+    margin: 10px;
+}
+
+.form {
+    border-radius: 5px;
+    border: black;
+    align-content: start;
+    text-align: center;
+}
