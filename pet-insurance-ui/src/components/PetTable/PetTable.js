@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getOwners, getPetsForOwner } from "../../data/rest";
+import {deletePetById, getOwners, getPetsForOwner} from "../../data/rest";
 import {useDispatch, useSelector} from "react-redux";
 import { useLocation, useHistory } from 'react-router-dom';
 import "./PetTable.css"
@@ -66,21 +66,24 @@ const PetTable = () => {
         setCurrentSpecies(e.target.value);
     }
 
-    const addPet = () => {
-        reduxDispatch({type: "add-pet", value: currentOwner })
-    }
+    const deletePet = (petId) => {
+        deletePetById(petId)
+            .then(
+                (response) => {
+                    loadPetsForOwner(currentOwner)}
+            )
+    };
 
     return (
         <div className="petTable">
             <label htmlFor="ownerSelect" > Select Owner: </label>
             <select value={currentOwner} id="ownerSelect" onChange={changeOwner}>
                 {owners.map((owner) => {
-                    return (<option key={owner.id}  value={owner.id}> {owner.id} </option>)
+                    return (<option key={owner.id}  value={owner.id}> {owner.id}-{owner.name} </option>)
                 })}
             </select>
             <label htmlFor="speciesSelect"> Select species: </label>
             <select value={currentSpecies} id="speciesSelect" onChange={changeSpecies}>
-                {/* <option disabled >SELECT</option> */}
                 {uniqueSpecies.map((species, index) => {
                     return (<option key={index}  value={species}> {species} </option>)
                 })}
@@ -97,6 +100,7 @@ const PetTable = () => {
                             <th> Age </th>
                             <th> Name </th>
                             <th> Gender </th>
+                            <th> </th>
                         </tr>
                     </thead>
 
@@ -110,6 +114,7 @@ const PetTable = () => {
                                     <td>{pet.age}</td>
                                     <td>{pet.name}</td>
                                     <td>{pet.gender}</td>
+                                    <td><button onClick={() => deletePet(pet.id)}>Delete</button></td>
                                 </tr>
                             )
                         })}

@@ -19,3 +19,7 @@ export const getPetsForOwner = (ownerId) => {
 export const addPetForOwner = (ownerId, pet) => {
     return axios({url: `http://localhost:8080/api/owner/${ownerId}/pet`, header: {'Accept': 'application/json', 'Content-Type': 'application/json'}, data: pet , method: "POST"})
 }
+
+export const deletePetById = (petId) => {
+    return axios({url: `http://localhost:8080/api/pet/${petId}`, header: {'Accept': 'application/json', 'Content-Type': 'application/json'}, method: "DELETE"})
+}

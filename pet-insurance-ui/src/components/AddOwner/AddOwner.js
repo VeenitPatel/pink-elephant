@@ -11,7 +11,7 @@ const AddOwner = () => {
         name: "",
         age: 0,
         address: "",
-        email: 0,
+        email: "",
         phone: "",
         policyNumber: 0
     }
